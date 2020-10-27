@@ -12,7 +12,7 @@ Here is an example to display the number of players online on a server.
 
 ```js
 const fivem = require("discord-fivem-api");
-fivem.getServerInfo("185.223.30.29:30120").then((server) => console.log(server.players.length))
+fivem.getServerInfo("000.000.00.00:30120").then((server) => console.log(server.players.length))
 ```
 
 
