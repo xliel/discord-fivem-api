@@ -1,4 +1,4 @@
-# Discord-fivem-api
+# Discord-Fivem-Api
 Small package in order to interact with FiveM API
 
 **How-to install :**
