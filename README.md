@@ -49,5 +49,3 @@ It returns a Promise with this object as parameter:
 }
 
 ```
-
-If you want to contribute to this project, please submit your proposal on the github
