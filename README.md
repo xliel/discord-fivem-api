@@ -48,5 +48,49 @@ It returns a Promise with this object as parameter:
         "version": int, // FXServer's version (numeric format)
     }
 }
-
 ```
+
+# Example :
+### Fivem Stats
+
+```js
+const Discord = require("discord.js");
+const client = new Discord.Client();
+const fivem = require("discord-fivem-api");
+ 
+client.on("ready", () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+});
+
+client.on('message', async (message) => {
+ if (message.author.bot) return;
+ if (message.content === 'stats') {
+    fivem.getServerInfo("000.00.00.00:30120").then(server => {
+      let result  = [];
+      let index = 1;
+      for (let player of server.players) {
+        result.push(`${index++}. ${player.name} | ${player.id} ID | ${player.ping} ping\n`);
+      }
+      const Embed = new Discord.MessageEmbed()
+        .setColor("BLUE")
+        .setAuthor("Server is online")
+        .setTitle(`Players (${server.players.length}/${server.infos.vars.sv_maxClients})`)
+        .setDescription(result)
+        .setTimestamp();
+      message.channel.send(Embed);
+    }).catch(err => {
+      console.log(err);
+      const Embed = new Discord.MessageEmbed()
+      .setColor("RED")
+      .setAuthor("Server is offline")
+      .setTimestamp();
+    message.channel.send(Embed);
+    });
+ }
+})
+
+client.login("Your_Bot_Token_here");
+```
+
+### Preview
+![FivemStats](https://cdn.discordapp.com/attachments/621111828025573396/771737140227866635/unknown.png)
