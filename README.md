@@ -59,7 +59,7 @@ const client = new Discord.Client();
 const fivem = require("discord-fivem-api");
  
 client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', async (message) => {
