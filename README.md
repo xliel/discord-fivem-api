@@ -87,7 +87,7 @@ client.on('message', async (message) => {
     message.channel.send(Embed);
     });
  }
-})
+});
 
 client.login("Your_Bot_Token_here");
 ```
