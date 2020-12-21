@@ -25,11 +25,4 @@ function getServerInfo(ip) {
   });
 }
 
-function getTemplateServerStats(ip, channelID, messageID, client) {
-  request(`http://${ip}/players.json`, function(error, response, body) {
-   
-  });
-}
-
 module.exports.getServerInfo = getServerInfo;
-module.exports.getTemplateServerStats = getTemplateServerStats;
