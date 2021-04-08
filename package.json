@@ -1,28 +1,28 @@
 {
   "name": "discord-fivem-api",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xliel/Discord-Fivem-Api"
-  },
   "keywords": [
-    "FiveM",
-    "Api",
-    "discord",
+    "fivem",
+    "api",
+    "fivem server status",
+    "discord fivem",
     "fivem stats"
   ],
-  "author": "Xliel&Renp",
-  "license": "ISC",
-  "dependencies": {
-    "discord.js": "^12.4.1",
-    "request": "^2.88.2"
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:xliel/Discord-Fivem-Api.git"
   },
   "bugs": {
-    "url": "https://github.com/xliel/Discord-Fivem-Api/issues"
+    "url": "https://github.com/xliel/discord-fivem-api/issues"
+  },
+  "author": "xliel",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
   }
 }
