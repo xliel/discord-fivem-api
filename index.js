@@ -4,14 +4,15 @@ class DiscordFivemApi {
     constructor(ip) {
         if (!ip) throw Error('Please provide a serverIP and serverPort. Need Help? Check Out: https://discord.gg/dpC3TS4dRk');
         this.ip = ip;
+        this.note = 'Need Help? Check Out: https://discord.gg/dpC3TS4dRk'
     }
 
-    host() {
+    getHost() {
         const split = this.ip.split(':')
         return split[0];
     };
 
-    port() {
+    getPort() {
         const split = this.ip.split(':')
         if (split.length >= 2) {
             return split[1];
