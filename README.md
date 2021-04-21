@@ -6,7 +6,9 @@ Small package in order to interact with FiveM API
 ```
 npm i discord-fivem-api
 ```
+
 **NPM:** [npmjs.com/discord-fivem-api](https://www.npmjs.com/package/discord-fivem-api)
+**Support** https://discord.gg/dpC3TS4dRk
 
 **How-to use :** 
 Here is an example to display the number of players online on a server.
@@ -48,16 +50,16 @@ client.on("ready", () => {
 client.on('message', async (message) => {
  if (!message.guild || message.author.bot) return;
  if (message.content === '!stats') {
-    server.getPlayers().then((serverPlayers) => {
+    server.getPlayers().then((data) => {
       let result  = [];
       let index = 1;
-      for (let player of serverPlayers.length) {
+      for (let player of data) {
         result.push(`${index++}. ${player.name} | ${player.id} ID | ${player.ping} ping\n`);
       }
       const embed = new Discord.MessageEmbed()
         .setColor("BLUE")
         .setAuthor("Server is online")
-        .setTitle(`Players (${serverPlayers.length}/${server.getPlayersOnline()})`)
+        .setTitle(`Players (${data.length}/${server.getPlayersOnline()})`)
         .setDescription(result.length > 0 ? result : 'No Players Online!')
         .setTimestamp();
       message.channel.send(embed);
@@ -71,7 +73,7 @@ client.on('message', async (message) => {
  }
 });
 
-client.login("Your_Bot_Token_here");
+client.login("BOT_TOKEN");
 ```
 
 ### Preview
