@@ -47,10 +47,10 @@ client.on("ready", () => {
    console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', async (message) => {
+client.on('messageCreate', async (message) => {
  if (!message.guild || message.author.bot) return;
  if (message.content === '!stats') {
-    server.getPlayers().then((data) => {
+    server.getPlayers().then(async(data) => {
       let result  = [];
       let index = 1;
       for (let player of data) {
@@ -59,16 +59,16 @@ client.on('message', async (message) => {
       const embed = new Discord.MessageEmbed()
         .setColor("BLUE")
         .setAuthor("Server is online")
-        .setTitle(`Players (${data.length}/${server.getPlayersOnline()})`)
+        .setTitle(`Players (${data.length}/${(await server.getPlayersOnline())})`)
         .setDescription(result.length > 0 ? result : 'No Players Online!')
         .setTimestamp();
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed] });
     }).catch((err) => {
       const embed = new Discord.MessageEmbed()
       .setColor("RED")
       .setAuthor("Server is offline")
       .setTimestamp();
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
     });
  }
 });
