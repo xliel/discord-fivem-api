@@ -39,7 +39,7 @@ server.getPlayersOnline().then((res) => console.log(res));
 
 ```js
 const Discord = require("discord.js");
-const client = new Discord.Client();
+const client = new Discord.Client({ intents: Object.keys(Discord.Intents.FLAGS) });
 const fivem = require("discord-fivem-api");
 const server = new fivem.DiscordFivemApi("000.000.00.00:30120");
 
