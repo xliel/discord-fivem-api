@@ -16,7 +16,7 @@ Here is an example to display the number of players online on a server.
 
 ```js
 const fivem = require("discord-fivem-api");
-const server = new fivem.DiscordFivemApi("000.000.00.00:30120");
+const server = new fivem.DiscordFivemApi("0.0.0.0:30120");
 server.getPlayersOnline().then((res) => console.log(res));
 ```
 
