@@ -7,11 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "fivem",
-    "api",
-    "fivem server status",
+    "FiveM",
+    "fivem stats",
+    "FiveM API",
     "discord fivem",
-    "fivem stats"
+    "discord-fivem-api",
+    "discord",
+    "discordapp",
+    "discord.js",
+    "discord-akairo"
   ],
   "repository": {
     "type": "git",
@@ -20,9 +24,12 @@
   "bugs": {
     "url": "https://github.com/xliel/discord-fivem-api/issues"
   },
-  "author": "xliel",
-  "license": "ISC",
+  "author": "xliel <https://discord.com/users/417398665670295572>",
+  "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
