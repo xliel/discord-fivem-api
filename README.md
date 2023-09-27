@@ -1,12 +1,10 @@
-GitHub Copilot: Sure, here's an example of how to use the `DiscordFivemApi` class:
-
 ## Installation
 
 You can install the `discord-fivem-api` package using npm:
 
 ```
 $ npm install discord-fivem-api
-OR 
+OR
 $ yarn add discord-fivem-api
 ```
 
@@ -15,7 +13,7 @@ $ yarn add discord-fivem-api
 To use the `DiscordFivemApi` class, you first need to import it:
 
 ```javascript
-const DiscordFivemApi = require('discord-fivem-api');
+const { DiscordFivemApi } = require('discord-fivem-api');
 ```
 
 Then, you can create a new instance of the class with the desired options:
@@ -24,42 +22,46 @@ Then, you can create a new instance of the class with the desired options:
 const options = {
   address: 'localhost',
   port: 30120,
-  useStructure: true,
   interval: 5000,
 };
 
-const api = new DiscordFivemApi(options, true);
+const api = new DiscordFivemApi(options, true, true);
 ```
 
 The `options` object can contain the following properties:
 
 - `address`: The IP address or hostname of the FiveM server (required).
 - `port`: The port number of the FiveM server (default: `30120`).
-- `useStructure`: Whether to use the `Player` and `Server` classes from the `structures` directory (default: `true`).
 - `interval`: The interval in milliseconds between updates (default: `2500`).
 
 The second argument to the constructor (`init`) specifies whether to initialize the API immediately (default: `false`).
+The third argument to the constructor (`useStructure`) specifies whether to use the `Server` and `Player` classes (default: `false`). 
 
 Once you have created an instance of the `DiscordFivemApi` class, you can use its methods to retrieve information about the FiveM server:
 
 ```javascript
-api.getStatus()
+api
+  .getStatus()
   .then((status) => console.log(`Server status: ${status}`))
   .catch((err) => console.error(err));
 
-api.getServerData()
+api
+  .getServerData()
   .then((serverData) => console.log(serverData))
   .catch((err) => console.error(err));
 
-api.getServerPlayers()
+api
+  .getServerPlayers()
   .then((players) => console.log(players))
   .catch((err) => console.error(err));
 
-api.getPlayersOnline()
+api
+  .getPlayersOnline()
   .then((count) => console.log(`Players online: ${count}`))
   .catch((err) => console.error(err));
 
-api.getMaxPlayers()
+api
+  .getMaxPlayers()
   .then((maxPlayers) => console.log(`Max players: ${maxPlayers}`))
   .catch((err) => console.error(err));
 ```
@@ -79,11 +81,19 @@ You can also listen for events emitted by the `DiscordFivemApi` instance:
 ```javascript
 api.on('ready', () => console.log('API initialized'));
 api.on('readyPlayers', (players) => console.log(`Players: ${players.length}`));
-api.on('readyResources', (resources) => console.log(`Resources: ${resources.length}`));
-api.on('playerJoin', (player) => console.log(`${player.name} joined the server`));
-api.on('playerLeave', (player) => console.log(`${player.name} left the server`));
+api.on('readyResources', (resources) =>
+  console.log(`Resources: ${resources.length}`)
+);
+api.on('playerJoin', (player) =>
+  console.log(`${player.name} joined the server`)
+);
+api.on('playerLeave', (player) =>
+  console.log(`${player.name} left the server`)
+);
 api.on('resourceAdd', (resource) => console.log(`Resource added: ${resource}`));
-api.on('resourceRemove', (resource) => console.log(`Resource removed: ${resource}`));
+api.on('resourceRemove', (resource) =>
+  console.log(`Resource removed: ${resource}`)
+);
 ```
 
 The `ready` event is emitted when the API is initialized.
