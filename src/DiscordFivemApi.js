@@ -1,17 +1,24 @@
+// Import required modules
 const { EventEmitter } = require('events');
 const fetch = require('node-fetch');
 const { Player, Server: ServerData } = require('./structures/index');
 const { Error: DfaError, TypeError: DfaTypeError } = require('./util/Error');
 
+// Define DiscordFivemApi class
 class DiscordFivemApi extends EventEmitter {
   options;
-  constructor(options, init = false, useStructure = true) {
+
+  // Constructor
+  constructor(options, init = false) {
     super();
 
+    // Set default options if not provided
     if (!this.options) this.options = {};
     if (!this.options?.port) this.options.port = 30120;
+    if (!this.options?.useStructure) this.options.useStructure = false;
     this.options = options;
 
+    // Validate options
     if (!this?.options?.address) {
       throw new DfaError('NO_ADDRESS', 'No address was provided.');
     }
@@ -25,22 +32,28 @@ class DiscordFivemApi extends EventEmitter {
         'The init option must be a boolean.'
       );
     }
-    if (typeof useStructure !== 'boolean' && useStructure !== undefined) {
+    if (
+      this?.options?.useStructure !== undefined &&
+      typeof this?.options?.useStructure !== 'boolean'
+    ) {
       throw new DfaTypeError(
         'INVALID_USE_STRUCTURE',
         'The useStructure option must be a boolean.'
       );
     }
 
+    // Initialize properties
     this._players = [];
     this.useStructure = options?.useStructure;
 
     this.address = options.address;
     this.port = options.port || 30120;
 
+    // Call _init method if init is true
     if (init) this._init();
   }
 
+  // Getters and setters
   get players() {
     return this._players;
   }
@@ -57,6 +70,7 @@ class DiscordFivemApi extends EventEmitter {
     this.players.splice(this.players.indexOf(player), 1);
   }
 
+  // Get server status
   getStatus() {
     return new Promise((resolve, reject) => {
       fetch(`http://${this.address}:${this.port}/info.json`, {
@@ -72,6 +86,7 @@ class DiscordFivemApi extends EventEmitter {
     });
   }
 
+  // Get server data
   getServerData() {
     return new Promise((resolve, reject) => {
       fetch(`http://${this.address}:${this.port}/info.json`, {
@@ -95,6 +110,7 @@ class DiscordFivemApi extends EventEmitter {
     });
   }
 
+  // Get server players
   getServerPlayers() {
     return new Promise((resolve, reject) => {
       fetch(`http://${this.address}:${this.port}/players.json`, {
@@ -124,6 +140,7 @@ class DiscordFivemApi extends EventEmitter {
     });
   }
 
+  // Get number of players online
   getPlayersOnline() {
     return new Promise((resolve, reject) => {
       fetch(`http://${this.address}:${this.port}/players.json`, {
@@ -145,18 +162,12 @@ class DiscordFivemApi extends EventEmitter {
     });
   }
 
+  // Get maximum number of players
   getMaxPlayers() {
     return new Promise((resolve, reject) => {
-      fetch(
-        `http://${
-          this.options.ip && this.options.port
-            ? `${this.options.ip}:${this.options.port}`
-            : `${this.options.ip}`
-        }/info.json`,
-        {
-          timeout: 5000,
-        }
-      )
+      fetch(`http://${this.address}:${this.port}/info.json`, {
+        timeout: 5000,
+      })
         .then((res) => res.json())
         .then((json) => {
           resolve(json.vars.sv_maxClients);
@@ -173,6 +184,7 @@ class DiscordFivemApi extends EventEmitter {
     });
   }
 
+  // Initialize the API
   async _init() {
     this.emit('ready');
 
@@ -225,3 +237,11 @@ class DiscordFivemApi extends EventEmitter {
 }
 
 module.exports = DiscordFivemApi;
+
+/**
+ * @typedef {Object} DiscordFivemApiOptions
+ * @property {string} address The IP address of the FiveM server.
+ * @property {number} [port=30120] The port of the FiveM server.
+ * @property {boolean} [useStructure=false] Whether to use the structure classes or not.
+ * @property {number} [interval=2500] The interval to update the player list and resource list.
+ **/

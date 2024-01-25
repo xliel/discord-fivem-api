@@ -1,7 +1,7 @@
 {
   "name": "discord-fivem-api",
-  "version": "1.0.4",
-  "description": "",
+  "version": "2.0.3",
+  "description": "A NodeJS package that helps you to interact with the little FiveM API.",
   "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,11 +15,13 @@
     "discord",
     "discordapp",
     "discord.js",
-    "discord-akairo"
+    "fivem cfx",
+    "cfx.re api",
+    "cfx api"
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:xliel/Discord-Fivem-Api.git"
+    "url": "git@github.com:xliel/discord-fivem-api.git"
   },
   "bugs": {
     "url": "https://github.com/xliel/discord-fivem-api/issues"
@@ -27,9 +29,6 @@
   "author": "xliel <https://discord.com/users/417398665670295572>",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.7"
-  },
-  "engines": {
-    "node": ">=14.0.0"
+    "axios": "^1.6.7"
   }
 }
