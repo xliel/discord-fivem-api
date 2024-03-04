@@ -1,6 +1,6 @@
 // Import required modules
 const { EventEmitter } = require('events');
-const fetch = require('node-fetch');
+const axios = require('axios');
 const { Player, Server: ServerData } = require('./structures/index');
 const { Error: DfaError, TypeError: DfaTypeError } = require('./util/Error');
 
@@ -73,11 +73,11 @@ class DiscordFivemApi extends EventEmitter {
   // Get server status
   getStatus() {
     return new Promise((resolve, reject) => {
-      fetch(`http://${this.address}:${this.port}/info.json`, {
-        timeout: 5000,
-      })
-        .then((res) => res.json())
-        .then(() => {
+      axios
+        .get(`http://${this.address}:${this.port}/info.json`, {
+          timeout: 5000,
+        })
+        .then((res) => {
           resolve('online');
         })
         .catch(() => {
@@ -89,14 +89,14 @@ class DiscordFivemApi extends EventEmitter {
   // Get server data
   getServerData() {
     return new Promise((resolve, reject) => {
-      fetch(`http://${this.address}:${this.port}/info.json`, {
-        timeout: 5000,
-      })
-        .then((res) => res.json())
-        .then((data) => {
+      axios
+        .get(`http://${this.address}:${this.port}/info.json`, {
+          timeout: 5000,
+        })
+        .then((res) => {
           if (this.useStructure) {
-            resolve(new ServerData(data));
-          } else resolve(data);
+            resolve(new ServerData(res.data));
+          } else resolve(res.data);
         })
         .catch((err) => {
           reject({
@@ -113,20 +113,20 @@ class DiscordFivemApi extends EventEmitter {
   // Get server players
   getServerPlayers() {
     return new Promise((resolve, reject) => {
-      fetch(`http://${this.address}:${this.port}/players.json`, {
-        timeout: 5000,
-      })
-        .then((res) => res.json())
-        .then((json) => {
+      axios
+        .get(`http://${this.address}:${this.port}/players.json`, {
+          timeout: 5000,
+        })
+        .then((res) => {
           if (this.useStructure) {
             const players = [];
-            for (const player of json) {
+            for (const player of res.data) {
               players.push(new Player(player));
             }
             this.players = players;
 
             resolve(players);
-          } else resolve(json);
+          } else resolve(res.data);
         })
         .catch((err) => {
           reject({
@@ -143,12 +143,12 @@ class DiscordFivemApi extends EventEmitter {
   // Get number of players online
   getPlayersOnline() {
     return new Promise((resolve, reject) => {
-      fetch(`http://${this.address}:${this.port}/players.json`, {
-        timeout: 5000,
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          resolve(json.length);
+      axios
+        .get(`http://${this.address}:${this.port}/players.json`, {
+          timeout: 5000,
+        })
+        .then((res) => {
+          resolve(res.data.length);
         })
         .catch((err) => {
           reject({
@@ -165,12 +165,12 @@ class DiscordFivemApi extends EventEmitter {
   // Get maximum number of players
   getMaxPlayers() {
     return new Promise((resolve, reject) => {
-      fetch(`http://${this.address}:${this.port}/info.json`, {
-        timeout: 5000,
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          resolve(json.vars.sv_maxClients);
+      axios
+        .get(`http://${this.address}:${this.port}/info.json`, {
+          timeout: 5000,
+        })
+        .then((res) => {
+          resolve(res.data.vars.sv_maxClients);
         })
         .catch((err) => {
           reject({

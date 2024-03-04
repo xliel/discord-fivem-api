@@ -53,7 +53,17 @@ function flatten(obj, ...props) {
   return out;
 }
 
+async function timeoutPromise(promise, ms) {
+  return await Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('TIMEOUT')), ms)
+    ),
+  ]);
+}
+
 // Exporting the flatten function
 module.exports = {
   flatten,
+  timeoutPromise,
 };
