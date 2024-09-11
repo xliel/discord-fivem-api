@@ -1,13 +1,20 @@
-// Importing the version number from package.json
+// Importing the version number from the package.json file
 const { version } = require('../package.json');
 
-// Importing the DiscordFivemApi class from the src/DiscordFivemApi.js file
+// Importing the main DiscordFivemApi class
 const DiscordFivemApi = require('./DiscordFivemApi');
 
-// Importing the Player and Server classes from the src/structures/index.js file
+// Importing the Player and Server classes from the structures directory
 const { Player, Server } = require('./structures/index');
 
-// Exporting the version number, DiscordFivemApi class, Player class, and Server class
+/**
+ * Exports the version number, main API class, and structure classes.
+ *
+ * - `version`: The current version of the package.
+ * - `DiscordFivemApi`: The primary API interface for interacting with FiveM servers.
+ * - `Player`: Class representing player data in the server.
+ * - `Server`: Class representing server data.
+ */
 module.exports = {
   version,
   DiscordFivemApi,

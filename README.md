@@ -1,46 +1,46 @@
-GitHub Copilot: Sure, here's an example of how to use the `DiscordFivemApi` class:
-
 ## Installation
 
-You can install the `discord-fivem-api` package using npm:
+Install the `discord-fivem-api` package using either npm or yarn:
 
-```
+```bash
 $ npm install discord-fivem-api
-OR 
+# or
 $ yarn add discord-fivem-api
 ```
 
 ## Usage
 
-To use the `DiscordFivemApi` class, you first need to import it:
+First, import the `DiscordFivemApi` class:
 
 ```javascript
 const DiscordFivemApi = require('discord-fivem-api');
 ```
 
-Then, you can create a new instance of the class with the desired options:
+Next, create a new instance of the class with the desired configuration options:
 
 ```javascript
 const options = {
-  address: 'localhost',
-  port: 30120,
-  useStructure: true,
-  interval: 5000,
+  address: 'localhost', // IP or hostname of the FiveM server
+  port: 30120,          // Port number (default: 30120)
+  useStructure: true,   // Whether to use the custom `Player` and `Server` structures (default: true)
+  interval: 5000,       // Interval in ms between server updates (default: 2500)
 };
 
-const api = new DiscordFivemApi(options, true);
+const api = new DiscordFivemApi(options, true); // 'true' initializes the API immediately
 ```
 
-The `options` object can contain the following properties:
+Configuration Options
+The `options` object supports the following properties:
+- `address` (required): The IP address or hostname of the FiveM server.
+- `port` (optional, default: `30120`): The port number of the FiveM server.
+- `useStructure`: (optional, default: `true`): Whether to use the custom `Player` and `Server` classes from the structures directory.
+- `interval`: (optional, default: `2500`): The interval (in milliseconds) between server data updates.
 
-- `address`: The IP address or hostname of the FiveM server (required).
-- `port`: The port number of the FiveM server (default: `30120`).
-- `useStructure`: Whether to use the `Player` and `Server` classes from the `structures` directory (default: `true`).
-- `interval`: The interval in milliseconds between updates (default: `2500`).
+The second argument (`init`) specifies whether to initialize the API immediately (`true`) or not (`false`, default).
 
-The second argument to the constructor (`init`) specifies whether to initialize the API immediately (default: `false`).
 
-Once you have created an instance of the `DiscordFivemApi` class, you can use its methods to retrieve information about the FiveM server:
+### Methods
+Once the `DiscordFivemApi` instance is created, you can use its methods to retrieve server information:
 
 ```javascript
 api.getStatus()
@@ -64,18 +64,19 @@ api.getMaxPlayers()
   .catch((err) => console.error(err));
 ```
 
-The `getStatus()` method returns a promise that resolves to either `'online'` or `'offline'`.
+### Method Details
 
-The `getServerData()` method returns a promise that resolves to an object containing information about the FiveM server. If `useStructure` is `true`, the object will be an instance of the `Server` class.
+- `<Api>.getStatus()` Returns a promise that resolves to 'online' or 'offline'.
 
-The `getServerPlayers()` method returns a promise that resolves to an array of objects containing information about the players on the FiveM server. If `useStructure` is `true`, the objects will be instances of the `Player` class.
+- `<Api>.getServerData()` Returns a promise that resolves to an object containing server information. If useStructure is true, it returns an instance of the Server class.
 
-The `getPlayersOnline()` method returns a promise that resolves to the number of players currently online.
+- `<Api>.getServerPlayers()` Returns a promise that resolves to an array of player objects. If useStructure is true, each object is an instance of the Player class.
 
-The `getMaxPlayers()` method returns a promise that resolves to the maximum number of players allowed on the FiveM server.
+- `<Api>.getPlayersOnline()` Returns a promise that resolves to the number of players currently online.
 
-You can also listen for events emitted by the `DiscordFivemApi` instance:
+- `<Api>.getMaxPlayers()` Returns a promise that resolves to the server's maximum player capacity.
 
+### Events
 ```javascript
 api.on('ready', () => console.log('API initialized'));
 api.on('readyPlayers', (players) => console.log(`Players: ${players.length}`));
@@ -86,19 +87,15 @@ api.on('resourceAdd', (resource) => console.log(`Resource added: ${resource}`));
 api.on('resourceRemove', (resource) => console.log(`Resource removed: ${resource}`));
 ```
 
-The `ready` event is emitted when the API is initialized.
+### Event Details
 
-The `readyPlayers` event is emitted when the player data is ready.
-
-The `readyResources` event is emitted when the resource data is ready.
-
-The `playerJoin` event is emitted when a player joins the server.
-
-The `playerLeave` event is emitted when a player leaves the server.
-
-The `resourceAdd` event is emitted when a resource is added to the server.
-
-The `resourceRemove` event is emitted when a resource is removed from the server.
+- `ready`: Emitted when the API is initialized.
+- `readyPlayers`: Emitted when player data is available.
+- `readyResources`: Emitted when resource data is available.
+- `playerJoin`: Emitted when a player joins the server.
+- `playerLeave`: Emitted when a player leaves the server.
+- `resourceAdd`: Emitted when a new resource is added to the server.
+- `resourceRemove`: Emitted when a resource is removed from the server.
 
 ## License
 

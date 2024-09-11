@@ -1,44 +1,65 @@
-// Creating a Symbol to store the error code
+// Symbol used to store the error code, keeping it private to avoid property collisions
 const kCode = Symbol('code');
 
-// Function to create a custom error message class
+/**
+ * Creates a custom error class that extends a base error class (Error or TypeError).
+ *
+ * @param {Error} [ErrorBase=global.Error] - The base error class to extend (default is the built-in Error).
+ * @returns {class} - A custom error class with enhanced functionality.
+ */
 function createErrorMessage(ErrorBase = global.Error) {
-  // Creating a new class that extends the ErrorBase class
+  // Define a new error class extending the provided base error class
   class DiscordFivemApiError extends ErrorBase {
+    /**
+     * Constructs a new DiscordFivemApiError instance.
+     *
+     * @param {string} key - A custom error code or identifier.
+     * @param {...any} args - Additional arguments passed to the base error class.
+     */
     constructor(key, ...args) {
-      // Calling the parent constructor with the provided arguments
+      // Call the parent Error constructor with provided arguments
       super(...args);
-      // Setting the error code to the provided key
+
+      // Assign the custom error code (key) to the private symbol
       this[kCode] = key;
 
-      // Capturing the stack trace if available
+      // Capture the stack trace for debugging, if the environment supports it
       if (Error.captureStackTrace)
         Error.captureStackTrace(this, DiscordFivemApiError);
     }
 
-    // Overriding the name getter to include the error code
+    /**
+     * Getter for the error name, including the custom error code.
+     * @returns {string} - The formatted error name with the error code.
+     */
     get name() {
       return `[DiscordFivemApi] ${super.name} [${this[kCode]}]`;
     }
 
-    // Getter for the error code
+    /**
+     * Getter for the error code.
+     * @returns {string} - The error code assigned to the instance.
+     */
     get code() {
       return this[kCode];
     }
 
-    // Overriding the toString method to include the error code
+    /**
+     * Overrides the default toString method to include the error code.
+     * @returns {string} - The string representation of the error with the custom code.
+     */
     toString() {
       return `[DiscordFivemApi] ${super.toString()} [${this[kCode]}]`;
     }
   }
 
-  // Returning the custom error message class
+  // Return the custom error class
   return DiscordFivemApiError;
 }
 
-// Exporting the createErrorMessage function and creating instances of the custom error message class for Error and TypeError
+// Export the createErrorMessage function, along with pre-defined instances for Error and TypeError
 module.exports = {
   createErrorMessage,
-  Error: createErrorMessage(Error),
-  TypeError: createErrorMessage(TypeError),
+  Error: createErrorMessage(Error), // Custom Error class
+  TypeError: createErrorMessage(TypeError), // Custom TypeError class
 };

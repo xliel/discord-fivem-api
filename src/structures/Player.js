@@ -1,32 +1,37 @@
-'use strict';
+'use strict'; // Enforcing strict mode for better error handling and security
 
-// Importing the flatten function from the Util.js file
+// Import the flatten function from the Util.js file
 const { flatten } = require('../util/Util');
 
-// Defining a class for a player with private data
+/**
+ * Represents a player with structured data and utility methods.
+ */
 class Player {
-  #data;
+  #data; // Private field to store the player's data
 
-  // Constructor that sets the private data and defines properties for each key in the data object
+  /**
+   * Constructs a new Player instance.
+   *
+   * @param {Object} data - The raw player data object.
+   */
   constructor(data) {
     this.#data = data;
 
-    // Loop through each key in the data object
+    // Iterate over each key in the player data object
     for (const key in this.#data) {
-      // If the key is 'identifiers', create a new object with the identifiers split into key-value pairs
+      // Special handling for the 'identifiers' key to split it into key-value pairs
       if (key === 'identifiers') {
         let playerIdentifiers = {};
         for (const identifier of this.#data[key]) {
-          if (!identifier.includes(':')) continue;
-          playerIdentifiers[identifier.split(':')[0]] =
-            identifier.split(':')[1];
+          if (!identifier.includes(':')) continue; // Skip invalid identifiers
+          const [idType, idValue] = identifier.split(':');
+          playerIdentifiers[idType] = idValue; // Store identifier in key-value format
         }
-        // Set the 'identifiers' key to the new object
-        this.#data[key] = playerIdentifiers;
+        this.#data[key] = playerIdentifiers; // Replace original identifiers array with parsed object
       }
 
-      // Define a new property for the key with the value from the data object
-      Object.defineProperty(this, `${key}`, {
+      // Define a read-only property for each key in the player data object
+      Object.defineProperty(this, key, {
         writable: false,
         enumerable: true,
         value: data[key],
@@ -34,16 +39,25 @@ class Player {
     }
   }
 
-  // Method to get the player's name or 'Unknown' if it is not available
+  /**
+   * Returns the player's name, or 'Unknown' if no name is available.
+   *
+   * @returns {string} - The player's name or 'Unknown'.
+   */
   toString() {
     return this.#data?.name ?? 'Unknown';
   }
 
-  // Method to get a flattened JSON representation of the player object with the provided properties
+  /**
+   * Returns a flattened JSON representation of the player object.
+   *
+   * @param {...any} props - Additional properties to include in the flattened output.
+   * @returns {Object} - The flattened player data object.
+   */
   toJSON(...props) {
     return flatten(this, ...props);
   }
 }
 
-// Exporting the Player class
+// Export the Player class to make it available for external modules
 module.exports = Player;

@@ -1,7 +1,7 @@
 {
   "name": "discord-fivem-api",
-  "version": "2.0.4",
-  "description": "A NodeJS package that helps you to interact with the little FiveM API.",
+  "version": "2.0.6",
+  "description": "A Node.js package to interact with FiveM servers, allowing you to retrieve server data, player information, and resources. Ideal for Discord bot integration or standalone Node.js applications.",
   "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

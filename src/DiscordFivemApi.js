@@ -16,6 +16,7 @@ class DiscordFivemApi extends EventEmitter {
     if (!this.options) this.options = {};
     if (!this.options?.port) this.options.port = 30120;
     if (!this.options?.useStructure) this.options.useStructure = false;
+    if (!this.options?.interval) this.options.interval = 2500;
     this.options = options;
 
     // Validate options
@@ -24,6 +25,27 @@ class DiscordFivemApi extends EventEmitter {
     }
     if (!this?.options?.port) {
       throw new DfaError('NO_PORT', 'No port was provided.');
+    }
+
+    if (typeof this?.options?.address !== 'string') {
+      throw new DfaTypeError(
+        'INVALID_ADDRESS',
+        'The address option must be a string.'
+      );
+    }
+
+    if (typeof this?.options?.port !== 'number') {
+      throw new DfaTypeError(
+        'INVALID_PORT',
+        'The port option must be a number.'
+      );
+    }
+
+    if (typeof this?.options?.interval !== 'number') {
+      throw new DfaTypeError(
+        'INVALID_INTERVAL',
+        'The interval option must be a number.'
+      );
     }
 
     if (typeof init !== 'boolean') {
@@ -60,14 +82,6 @@ class DiscordFivemApi extends EventEmitter {
 
   set players(players) {
     this._players = players;
-  }
-
-  set addPlayer(player) {
-    this.players.push(player);
-  }
-
-  set removePlayer(player) {
-    this.players.splice(this.players.indexOf(player), 1);
   }
 
   // Get server status
@@ -183,6 +197,7 @@ class DiscordFivemApi extends EventEmitter {
         });
     });
   }
+  
 
   // Initialize the API
   async _init() {
@@ -239,9 +254,11 @@ class DiscordFivemApi extends EventEmitter {
 module.exports = DiscordFivemApi;
 
 /**
- * @typedef {Object} DiscordFivemApiOptions
- * @property {string} address The IP address of the FiveM server.
- * @property {number} [port=30120] The port of the FiveM server.
- * @property {boolean} [useStructure=false] Whether to use the structure classes or not.
- * @property {number} [interval=2500] The interval to update the player list and resource list.
- **/
+ * The DiscordFivemApi class.
+ * @typedef {DiscordFivemApi} DiscordFivemApi
+ * @property {Object} options The options for the API.
+ * @property {string} options.address The IP address of the FiveM server.
+ * @property {number} options.port The port of the FiveM server.
+ * @property {boolean} options.useStructure Whether to use the structures or not.
+ * @property {number} [options.interval=2500] The interval to check for player and resource changes.
+ */
